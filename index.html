@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+	<title>Document</title>
+	<style type="text/css">
+		canvas{
+			border:1px solid black;
+			background-repeat: no-repeat;
+			background-size: 200px 300px;
+			background-position: center;
+		}
+	</style>
+	</head>
+<body>
+	<canvas id="myCanvas" width="300" height="300"></canvas>
+	<script type="text/javascript">
+		var oCanvas = document.getElementById('myCanvas');
+		var ctx = oCanvas.getContext('2d');
+		var w = oCanvas.width;
+		var h = oCanvas.height;
+		var lastX,lastY,nowX,nowY;
+		function init(){
+//			填充画布灰色正方形
+			ctx.fillStyle = '#ccc';
+			ctx.fillRect(0,0,w,h);
+			ctx.font = "30px Courier New";
+			ctx.strokeStyle = "blue";
+			ctx.strokeText("给你的礼物",50,50);
+			ctx.strokeText("愿你每天开心快乐",10,100);
+			ctx.strokeText("刮开看看",60,200);
+//			插入随机的背景图片 Math.random()
+         var r = Math.random();
+         var oImg = new Image();
+
+         r<0.25?oImg.src = 'img/1.jpg':(r<0.5?oImg.src ='img/3.jpg':(r<0.75?oImg.src = 'img/3.png':oImg.src = 'img/2.jpg'));
+         oImg.onload = function (){
+         	oCanvas.style.backgroundImage = 'url('+ oImg.src+')';
+         	ctx.globalCompositeOperation = 'destination-out';
+//       开始交互
+      oCanvas.addEventListener('mousedown',downFn,false);} ;
+      
+      oCanvas.addEventListener('touchstart',downFn,false);
+      
+                  }
+		init();
+		function downFn(e){
+//			var x = e.clientX - oCanvas.offsetLeft;
+//			var y = e.clientY -oCanvas.offsetTop;
+         lastX =  e.clientX - oCanvas.offsetLeft;
+		lastY = e.clientY -oCanvas.offsetTop;
+			 oCanvas.addEventListener('mousemove',moveFn,false);
+        oCanvas.addEventListener('mouseup',upFn,false);
+        oCanvas.addEventListener('touchmove',moveFn,false);
+       oCanvas.addEventListener('touchend',upFn,false) 
+		}
+		
+
+		function moveFn(e){
+//			刮开的轨迹根据鼠标移动轨迹决定
+
+var nowX = e.clientX - oCanvas.offsetLeft;
+var nowY = e.clientY - oCanvas.offsetTop;
+ctx.beginPath();
+ctx.fillstyle = 'black';
+
+ctx.lineWidth = 40;
+ctx.moveTo(lastX,lastY);
+ctx.lineTo(nowX,nowY);
+ctx.stroke();
+
+ctx.arc(nowX,nowY,20,0,Math.PI*2,0);
+ctx.closePath();
+ctx.fill();
+
+lastX = nowX;
+lastY = nowY;
+		}
+		
+
+		
+		function upFn(){
+			oCanvas.removeEventListener('mousemove',moveFn,false);
+			oCanvas.removeEventListener('mouseup',upFn,false);
+			oCanvas.removeEventListener('touchmove',moveFn,false);
+       oCanvas.removeEventListener('touchend',upFn,false) 
+		}
+		
+	</script>
+	<script src="js/Zepto.js" type="text/javascript" charset="utf-8"></script>
+	<script src="js/touch.js" type="text/javascript" charset="utf-8"></script>
+</body>
+</html>
