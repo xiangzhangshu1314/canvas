@@ -35,7 +35,7 @@
          var r = Math.random();
          var oImg = new Image();
 
-         r<0.5? oImg.src = 'images/3.jpg':oImg.src = 'images/3.png';
+        r<0.25?oImg.src = 'img/1.jpg':(r<0.5?oImg.src ='img/3.jpg':(r<0.75?oImg.src = 'img/3.png':oImg.src = 'img/2.jpg'));
          oImg.onload = function (){
          	oCanvas.style.backgroundImage = 'url('+ oImg.src+')';
          	ctx.globalCompositeOperation = 'destination-out';
