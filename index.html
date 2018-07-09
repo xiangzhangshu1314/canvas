@@ -39,54 +39,47 @@
          oImg.onload = function (){
          	oCanvas.style.backgroundImage = 'url('+ oImg.src+')';
          	ctx.globalCompositeOperation = 'destination-out';
-//       开始交互
-   
-      
-    $("#myCanvas").on('touchstart',downFn);
-      
-                  }
+//       开始交互       
+          $("#myCanvas").on('touchstart',downFn);      
+                  }}
 		init();
 		function downFn(e){
-var _x = e.touches[0].pageX;
-	var _y = e.touches[0].pageY;
-         lastX = _x - oCanvas.offsetLeft;
-		lastY = _y -oCanvas.offsetTop;
+                                var _x = e.touches[0].pageX;
+	                        var _y = e.touches[0].pageY;
+                                lastX = _x - oCanvas.offsetLeft;
+		                lastY = _y -oCanvas.offsetTop;
 			  $("#myCanvas").on('touchmove',moveFn);
-         $("#myCanvas").on('touchend',endFn);
-		}
-		
+                          $("#myCanvas").on('touchend',endFn);
+		                   }		
 
 		function moveFn(e){
 			event.preventDefault();
 			var _x = e.touches[0].pageX;
-	var _y = e.touches[0].pageY;
-	
+	                var _y = e.touches[0].pageY;	
 //			刮开的轨迹根据鼠标移动轨迹决定
+                        var nowX = _x - oCanvas.offsetLeft;
+                        var nowY = _y - oCanvas.offsetTop;
+                        ctx.beginPath();
+                        ctx.fillstyle = 'black';
+                        ctx.lineWidth = 40;
+                        ctx.moveTo(lastX,lastY);
+                        ctx.lineTo(nowX,nowY);
+                        ctx.stroke();
 
-var nowX = _x - oCanvas.offsetLeft;
-var nowY = _y - oCanvas.offsetTop;
-ctx.beginPath();
-ctx.fillstyle = 'black';
+                        ctx.arc(nowX,nowY,20,0,Math.PI*2,0);
+                        ctx.closePath();
+                        ctx.fill();
 
-ctx.lineWidth = 40;
-ctx.moveTo(lastX,lastY);
-ctx.lineTo(nowX,nowY);
-ctx.stroke();
-
-ctx.arc(nowX,nowY,20,0,Math.PI*2,0);
-ctx.closePath();
-ctx.fill();
-
-lastX = nowX;
-lastY = nowY;
+                        lastX = nowX;
+                        lastY = nowY;
 		}
 		
 
 		
 		function endFn(){
 			$("#myCanvas").on('touchmove',moveFn);
-         $("#myCanvas").on('touchend',endFn);
-		}
+                        $("#myCanvas").on('touchend',endFn);
+		                }
 		
 	</script>
 	<script src="https://cdn.bootcss.com/zepto/1.2.0/zepto.min.js"></script>
