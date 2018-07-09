@@ -40,29 +40,31 @@
          	oCanvas.style.backgroundImage = 'url('+ oImg.src+')';
          	ctx.globalCompositeOperation = 'destination-out';
 //       开始交互
-      oCanvas.addEventListener('mousedown',downFn,false);} ;
+   
       
-      oCanvas.addEventListener('touchstart',downFn,false);
+    $("#myCanvas").on('touchstart',downFn);
       
                   }
 		init();
 		function downFn(e){
-//			var x = e.clientX - oCanvas.offsetLeft;
-//			var y = e.clientY -oCanvas.offsetTop;
-         lastX =  e.clientX - oCanvas.offsetLeft;
-		lastY = e.clientY -oCanvas.offsetTop;
-			 oCanvas.addEventListener('mousemove',moveFn,false);
-        oCanvas.addEventListener('mouseup',upFn,false);
-        oCanvas.addEventListener('touchmove',moveFn,false);
-       oCanvas.addEventListener('touchend',upFn,false) 
+var _x = e.touches[0].pageX;
+	var _y = e.touches[0].pageY;
+         lastX = _x - oCanvas.offsetLeft;
+		lastY = _y -oCanvas.offsetTop;
+			  $("#myCanvas").on('touchmove',moveFn);
+         $("#myCanvas").on('touchend',endFn);
 		}
 		
 
 		function moveFn(e){
+			event.preventDefault();
+			var _x = e.touches[0].pageX;
+	var _y = e.touches[0].pageY;
+	
 //			刮开的轨迹根据鼠标移动轨迹决定
 
-var nowX = e.clientX - oCanvas.offsetLeft;
-var nowY = e.clientY - oCanvas.offsetTop;
+var nowX = _x - oCanvas.offsetLeft;
+var nowY = _y - oCanvas.offsetTop;
 ctx.beginPath();
 ctx.fillstyle = 'black';
 
@@ -81,11 +83,9 @@ lastY = nowY;
 		
 
 		
-		function upFn(){
-			oCanvas.removeEventListener('mousemove',moveFn,false);
-			oCanvas.removeEventListener('mouseup',upFn,false);
-			oCanvas.removeEventListener('touchmove',moveFn,false);
-       oCanvas.removeEventListener('touchend',upFn,false) 
+		function endFn(){
+			$("#myCanvas").on('touchmove',moveFn);
+         $("#myCanvas").on('touchend',endFn);
 		}
 		
 	</script>
